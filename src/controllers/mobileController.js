@@ -10,6 +10,7 @@ export const addNewMobile = (req, res) =>{
     
     newMobile.save((err, mobile)=>{
         if(err){
+            res.statusCode = 412;
             res.send(err);
         }
         res.json(mobile);
@@ -19,7 +20,7 @@ export const addNewMobile = (req, res) =>{
 export const getMobiles = (req, res) =>{
 
     Mobile.find({}, defaultSelect, (err, mobile)=>{
-        if(err){
+        if(err){            
             res.send(err);
         }
         res.json(mobile);
@@ -30,8 +31,16 @@ export const getMobileByCode = (req, res) =>{
 
     Mobile.findOne({'code': req.params.code }, defaultSelect, (err, mobile)=>{
         if(err){
+            
             res.send(err);
         }
-        res.json(mobile);
+        
+        if(mobile){
+            res.json(mobile);
+        }else{
+            res.statusCode = 404;
+            res.json(mobile);
+        }
+        
     });
 };
