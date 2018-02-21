@@ -2,6 +2,7 @@ import express from "express";
 import routes from "./src/routes/mobileRoutes";
 import mongoose from "mongoose";
 import bodyParse from 'body-parser';
+import cors from 'cors';
 
 const app = express();
 const PORT = 3000;
@@ -15,6 +16,8 @@ mongoose.connect(dbUrl, (err) => {
 
 app.use(bodyParse.urlencoded({extended: true}));
 app.use(bodyParse.json());
+
+app.use(cors({origin: 'http://localhost:4200'}));
 
 routes(app);
 
